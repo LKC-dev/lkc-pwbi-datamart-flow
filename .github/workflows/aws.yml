@@ -54,7 +54,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: v4-pwbi-datamart
+        ECR_REPOSITORY: v4data-pwbi-datamart-flow
         IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build a docker container and
@@ -69,7 +69,7 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: pwbi-datamart-task-definition.json
-        container-name: v4-pwbi-datamart
+        container-name: pwbi_flow
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
