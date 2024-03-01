@@ -11,10 +11,10 @@
           "awslogs-stream-prefix": "ecs"
         }
       },
-      "image": "490739040942.dkr.ecr.us-east-2.amazonaws.com/v4-salesforce",
+      "image": "490739040942.dkr.ecr.us-east-2.amazonaws.com/v4data-pwbi-datamart-flow",
       "name": "salesf",
       "secrets": [{
-        "name": "aws_token",
+        "name": "pwbi_datamart_flow",
         "valueFrom": "arn:aws:secretsmanager:us-east-2:490739040942:secret:prod/get_secret_IAM-5p2Ngv"
       }]
     }
