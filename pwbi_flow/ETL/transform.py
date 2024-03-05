@@ -14,7 +14,6 @@ def transform(data):
                     'data_ultimo_pagamento',
                     'data_criacao_ultimo_variavel',
                     'data_ultima_resposta_pesquisa',
-                    'data_atribuicao_trust',
                     'data_ultimo_roi'
                     ]
 
