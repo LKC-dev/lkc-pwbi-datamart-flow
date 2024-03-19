@@ -14,16 +14,16 @@ from pwbi_flow.resources.config import *
 
 def pushToDataLake(name, data, schema):
     data.to_csv(name, encoding="utf8", index=False)
-    bucket = 'v4company-data-lake' 
+    bucket = 'lkc-data-lake' 
     csv_buffer = StringIO()
     data.to_csv(csv_buffer, encoding="utf8", index=False)
     s3_resource = boto3.resource('s3',
-                                aws_access_key_id=json.loads(get_secret("prod/SAAWS"))['Access Key Id'],
-                                aws_secret_access_key=json.loads(get_secret("prod/SAAWS"))['Secret Access Key']
+                                aws_access_key_id=json.loads(get_secret("prod/secret"))['Access Key Id'],
+                                aws_secret_access_key=json.loads(get_secret("prod/secret"))['Secret Access Key']
                                 )
     s3_resource.Object(bucket, 
                        DATA_SOURCE + schema + str(time.strftime('%Y/%m/%d/')) + name).put(Body=csv_buffer.getvalue())
-    print("Data uploaded sucessfuly in V4 Data Lake -> " + name)
+    print("Data uploaded sucessfuly in Data Lake -> " + name)
     print(time.ctime())
 
 def slackAlerta(msg):
@@ -49,7 +49,7 @@ def load_data_postgresql(table_name: str, df: pd.DataFrame):
             slackAlerta(f"""
                             URGENTE VERIFICAR:
                             ERRO: Error Truncating POSTGRESQL - {schema}.{table_name}
-                             ETL: v4data-datamart-aurora-flow
+                             ETL: lkc-datamart-aurora-flow
                         """)
             con.rollback()
             cur.close()
@@ -74,5 +74,5 @@ def load_data_postgresql(table_name: str, df: pd.DataFrame):
             slackAlerta(f"""
                 URGENTE VERIFICAR:
                 ERRO: Error inserting POSTGRESQL - {schema}.{table_name}
-                ETL: v4data-datamart-aurora-flow
+                ETL: lkc-datamart-aurora-flow
             """)

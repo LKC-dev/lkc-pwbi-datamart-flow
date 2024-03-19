@@ -4,14 +4,13 @@ import pyodbc
 import json
 from datetime import datetime
 from pwbi_flow.utils.sqlServerConnector import *
-from pwbi_flow.resources.config import PWBI_SECRET
 
 
 def extract():
-    server = json.loads(get_secret(PWBI_SECRET))['fabric_azure_datamart_sql']
+    server = ###YOUR_SERVER URL
     database = 'master'
-    username = json.loads(get_secret(PWBI_SECRET))['user']
-    password = json.loads(get_secret(PWBI_SECRET))['password']
+    username = ###YOUR_USERNAME
+    password = ###YOUR_PASSWORD
     driver = '{ODBC Driver 17 for SQL Server}'
     authentication_type = 'ActiveDirectoryPassword'
 
@@ -20,7 +19,7 @@ def extract():
         connection = pyodbc.connect(connection_string)
         cursor = connection.cursor()
 
-        query = 'select * from central_projetos'
+        query = 'select * from you_table'
 
         rows = pd.read_sql(query, connection)
 

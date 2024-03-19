@@ -19,15 +19,15 @@ def slackAlerta(msg):
 
 
 def pushToDataLake(schema,name,data):
-    bucket = 'v4company-data-lake' 
+    bucket = 'lkc-data-lake' 
     csv_buffer = StringIO()
     data.to_csv(csv_buffer,encoding="utf8",index=False)
     s3_resource = boto3.resource('s3',
-                                    aws_access_key_id=json.loads(get_secret("prod/SAAWS"))['Access Key Id'],
-                                    aws_secret_access_key=json.loads(get_secret("prod/SAAWS"))['Secret Access Key'])
+                                    aws_access_key_id=json.loads(get_secret("prod/secret"))['Access Key Id'],
+                                    aws_secret_access_key=json.loads(get_secret("prod/secret"))['Secret Access Key'])
     s3_resource.Object(bucket,
                     DATA_SOURCE +  schema + str(time.strftime('%Y/%m/%d/')) + name).put(Body=csv_buffer.getvalue())
-    print("Data uploaded sucessfuly in V4 Data Lake -> " + name)
+    print("Data uploaded sucessfuly in Data Lake -> " + name)
     print(time.ctime())
 
 
@@ -53,14 +53,14 @@ def load_data_postgresql(table_name: str, df: pd.DataFrame):
     con = postgresConn()
     cur = con.cursor()
     try:
-        cur.execute("TRUNCATE TABLE {'pbi'}.{table_name}")
+        cur.execute("TRUNCATE TABLE 'pbi'.{table_name}")
         con.commit()
         print(f'dedudplicated {schema}.{table_name}')
     except (Exception, psycopg2.DatabaseError) as error_content:
         slackAlerta(f"""
         URGENTE VERIFICAR:
         ERRO: Error truncating POSTGRESQL - {'pbi'}.{table_name}
-        ETL: v4data-pwbi-dataset-flow
+        ETL: lkc-pwbi-dataset-flow
         {time_now}
         """)
         con.rollback()
@@ -85,7 +85,7 @@ def load_data_postgresql(table_name: str, df: pd.DataFrame):
     if error_content is not None:
         slackAlerta(f"""
         URGENTE VERIFICAR:
-        ERRO: Error inserting POSTGRESQL - {'pbi'}.{table_name}
-        ETL: v4data-pwbi-dataset-flow
+        ERRO: Error inserting POSTGRESQL - 'pbi'.{table_name}
+        ETL: lkc-pwbi-dataset-flow
         {time_now}
         """)

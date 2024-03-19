@@ -9,7 +9,7 @@ logger = logger.logger_configuration()
 
 def run():
 
-    table_name = 'mt_projetos'
+    table_name = 'your_table'
 
     data = extract()
 
@@ -26,6 +26,6 @@ except Exception as e:
     slackAlerta(f"""
             URGENTE VERIFICAR:
             ERRO: Execution error
-            ETL: v4data-pwbi-datamart-flow
+            ETL: lkc-pwbi-datamart-flow
             {datetime.now()}
             """)

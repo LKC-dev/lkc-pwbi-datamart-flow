@@ -6,15 +6,9 @@ def transform(data):
 
     df = pd.DataFrame(data=data)
 
-    date_columns = ['data_fim_movimentacao', 
-                    'data_criacao', 
-                    'data_assinatura', 
-                    'data_fim_projeto',
-                    'data_inicio_projeto',
-                    'data_ultimo_pagamento',
-                    'data_criacao_ultimo_variavel',
-                    'data_ultima_resposta_pesquisa',
-                    'data_ultimo_roi'
+    date_columns = ['column1', 
+                    'column2', 
+                    'column3'
                     ]
 
     df[date_columns] = df[date_columns].apply(pd.to_datetime)

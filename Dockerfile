@@ -1,5 +1,5 @@
 FROM python:3.11.3
-LABEL maintainer = "V4 Data Team"
+LABEL maintainer = "lkc"
 
 ADD odbcinst.ini /etc/odbcinst.ini
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
